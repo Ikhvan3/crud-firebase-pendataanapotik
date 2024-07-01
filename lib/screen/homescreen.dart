@@ -140,7 +140,7 @@ class AppPendataan extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CrudPageBarang(),
+                            builder: (context) => CrudPagePelanggan(),
                           ),
                         );
                       },

@@ -1,14 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; //Untuk berinteraksi dengan Firestore
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart'; //menginisialisasi Firebase
 import 'package:flutter_application_1/screen/crudobarscreen.dart';
 import 'package:flutter_application_1/screen/homescreen.dart';
-import 'firebase_options.dart';
+import 'firebase_options.dart'; //konfigurasi Firebase yang dihasilkan oleh Firebase CLI
 
 void main(List<String> args) async {
+  //menginisialisasi binding Flutter dan Firebase
   WidgetsFlutterBinding.ensureInitialized();
+  //menginisialisasi Firebase dengan konfigurasi yang sesuai untuk platform saat ini
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions
+        .currentPlatform, //konfigurasi default yang dihasilkan oleh Firebase CLI
   );
   runApp(MainApp());
 }

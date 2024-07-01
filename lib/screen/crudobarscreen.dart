@@ -9,19 +9,21 @@ class CrudPage extends StatefulWidget {
 }
 
 class _CrudPageState extends State<CrudPage> {
+  //controller untuk input data
   final TextEditingController _kodeObatController = TextEditingController();
-
   final TextEditingController _namaObatController = TextEditingController();
 
+  //Referensi ke Koleksi Firestore
   final CollectionReference _obatCollection =
       FirebaseFirestore.instance.collection('Obat');
 
   void _createOrUpdateObat([DocumentSnapshot? documentSnapshot]) async {
+    //jika documentSnapshot tidak null,berarti akan mengedit data yang sudah ada dengan adat dari documentSnapshot
     if (documentSnapshot != null) {
       _kodeObatController.text = documentSnapshot['kode_obat'];
       _namaObatController.text = documentSnapshot['nama_obat'];
     }
-
+    //akan menampilkan form input/update data
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -29,7 +31,6 @@ class _CrudPageState extends State<CrudPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              //add dan update data obat
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -93,7 +94,7 @@ class _CrudPageState extends State<CrudPage> {
                         'nama_obat': namaObat,
                       });
                     }
-
+                    //Mengosongkan nilai dalam controller setelah data disimpan
                     _kodeObatController.text = '';
                     _namaObatController.text = '';
                     // ignore: use_build_context_synchronously
@@ -120,11 +121,16 @@ class _CrudPageState extends State<CrudPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('CRUD Obat')),
+      //Menggunakan stream dari koleksi Obat untuk mendapatkan pembaruan real-time
       body: StreamBuilder(
-        stream: _obatCollection.snapshots(),
+        stream:
+            _obatCollection.snapshots(), //Mengambil stream dari koleksi Obat
+        //Fungsi builder yang menerima snapshot dari data Firestore.
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          //Jika snapshot.hasData adalah true, maka akan menampilkan data dalam bentuk list
           if (snapshot.hasData) {
             return ListView.builder(
+              //Menentukan jumlah item dalam list berdasarkan jumlah dokumen dalam snapshot
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
@@ -142,11 +148,14 @@ class _CrudPageState extends State<CrudPage> {
                           IconButton(
                             icon: const Icon(Icons.edit),
                             onPressed: () =>
+                                //mengedit obat dengan data dari documentSnapshot
                                 _createOrUpdateObat(documentSnapshot),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () => _deleteObat(documentSnapshot.id),
+                            onPressed: () =>
+                                //menghapus obat berdasarkan id dokumen
+                                _deleteObat(documentSnapshot.id),
                           ),
                         ],
                       ),
@@ -156,7 +165,7 @@ class _CrudPageState extends State<CrudPage> {
               },
             );
           }
-
+          //(snapshot.hasData adalah false), maka kita menampilkan indikator loading.
           return const Center(
             child: CircularProgressIndicator(),
           );
