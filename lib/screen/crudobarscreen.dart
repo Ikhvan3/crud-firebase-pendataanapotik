@@ -97,7 +97,7 @@ class _CrudPageState extends State<CrudPage> {
                     //Mengosongkan nilai dalam controller setelah data disimpan
                     _kodeObatController.text = '';
                     _namaObatController.text = '';
-                    // ignore: use_build_context_synchronously
+
                     Navigator.of(context).pop();
                   }
                 },

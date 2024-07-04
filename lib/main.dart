@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; //Untuk berinteraksi dengan Firestore
+//Untuk berinteraksi dengan Firestore
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; //menginisialisasi Firebase
-import 'package:flutter_application_1/screen/crudobarscreen.dart';
-import 'package:flutter_application_1/screen/homescreen.dart';
+import 'package:flutter_application_1/screens/homescreen.dart';
 import 'firebase_options.dart'; //konfigurasi Firebase yang dihasilkan oleh Firebase CLI
 
 void main(List<String> args) async {
