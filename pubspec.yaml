@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core: ^3.1.1
   cloud_firestore: ^5.0.2
+  http: any
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,12 @@ flutter:
     - images/cataflam_obat.jpg
     - images/panadol_obat.jpg
     - images/aloclair_obat.jpg
+    - images/bg1_furniture.jpg
+    - images/bg2_furniture.png
+    - images/logo_furniture.png
+    - images/logo_menu_barang.png
+    - images/menu_pelangganf.png
+    - images/penggunaa.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
