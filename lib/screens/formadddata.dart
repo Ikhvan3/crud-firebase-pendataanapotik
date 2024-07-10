@@ -28,7 +28,7 @@ class FormInputScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 2, 210, 252),
         title: Text(
-          docId == null ? 'Tambah Data' : 'Edit Data',
+          docId == null ? 'Tambah Data Barang' : 'Edit Data Barang',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 255, 255, 255)),
@@ -38,17 +38,37 @@ class FormInputScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: kodeBrgController,
-              decoration: InputDecoration(labelText: 'Kode Barang'),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: kodeBrgController,
+                  decoration: InputDecoration(
+                    labelText: 'Kode Barang',
+                  ),
+                ),
+              ),
             ),
-            TextField(
-              controller: namaBrgController,
-              decoration: InputDecoration(labelText: 'Nama Barang'),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: namaBrgController,
+                  decoration: InputDecoration(labelText: 'Nama Barang'),
+                ),
+              ),
             ),
-            TextField(
-              controller: hargaBrgController,
-              decoration: InputDecoration(labelText: 'Harga Barang'),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: hargaBrgController,
+                  decoration: InputDecoration(labelText: 'Harga Barang'),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -57,7 +77,10 @@ class FormInputScreen extends StatelessWidget {
                     hargaBrgController.text);
                 Navigator.of(context).pop();
               },
-              child: Text('Simpan'),
+              child: Text(
+                'Simpan',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
