@@ -54,7 +54,7 @@ class _PendataanPelangganFurnitureState
     List<Map<String, dynamic>> mysqlList = [];
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.33.195/getpelanggan.php'));
+          await http.get(Uri.parse('http://192.168.1.27/getpelanggan.php'));
 
       if (response.statusCode == 200) {
         // Tambahkan logging untuk melihat respons dari server
@@ -76,12 +76,18 @@ class _PendataanPelangganFurnitureState
                   item['nama_pelanggan'] != null &&
                   item['nama_pelanggan'] != '0' &&
                   item['umur_pelanggan'] != null &&
-                  item['umur_pelanggan'] != '0')
+                  item['umur_pelanggan'] != '0' &&
+                  item['email'] != null &&
+                  item['email'] != '0' &&
+                  item['telepon'] != null &&
+                  item['telepon'] != '0')
               .map((item) => {
                     'id': item['id'].toString(),
                     'kode_pelanggan': item['kode_pelanggan'],
                     'nama_pelanggan': item['nama_pelanggan'],
                     'umur_pelanggan': item['umur_pelanggan'],
+                    'email': item['email'],
+                    'telepon': item['telepon'],
                     'source': 'mysql'
                   })
               .toList();
@@ -104,24 +110,33 @@ class _PendataanPelangganFurnitureState
     _tampildata();
   }
 
-  void _addData(String kodePlg, String namaPlg, String umurPlg) async {
-    if (kodePlg.isNotEmpty && namaPlg.isNotEmpty && umurPlg.isNotEmpty) {
+  void _addData(String kodePlg, String namaPlg, String umurPlg, String emailPlg,
+      String teleponPlg) async {
+    if (kodePlg.isNotEmpty &&
+        namaPlg.isNotEmpty &&
+        umurPlg.isNotEmpty &&
+        emailPlg.isNotEmpty &&
+        teleponPlg.isNotEmpty) {
       try {
         // Tambah ke Firebase
         DocumentReference docRef = await corref.add({
           'kode_pelanggan': kodePlg,
           'nama_pelanggan': namaPlg,
           'umur_pelanggan': umurPlg,
+          'email': emailPlg,
+          'telepon': teleponPlg,
           'timestamp': FieldValue.serverTimestamp(),
         });
 
         // Tambah ke MySQL
         final response = await http.post(
-          Uri.parse('http://192.168.33.195/addpelanggan.php'),
+          Uri.parse('http://192.168.1.27/addpelanggan.php'),
           body: {
             'kode_pelanggan': kodePlg,
             'nama_pelanggan': namaPlg,
             'umur_pelanggan': umurPlg,
+            'email': emailPlg,
+            'telepon': teleponPlg,
           },
         );
 
@@ -157,7 +172,7 @@ class _PendataanPelangganFurnitureState
 
       // Hapus dari MySQL
       final response = await http.post(
-        Uri.parse('http://192.168.33.195/deletepelanggan.php'),
+        Uri.parse('http://192.168.1.27/deletepelanggan.php'),
         body: {'kode_pelanggan': kodePelanggan},
       );
 
@@ -179,25 +194,39 @@ class _PendataanPelangganFurnitureState
     }
   }
 
-  void _editData(String docId, String oldKodePlg, String newKodePlg,
-      String namaPlg, String umurPlg) async {
-    if (newKodePlg.isNotEmpty && namaPlg.isNotEmpty && umurPlg.isNotEmpty) {
+  void _editData(
+      String docId,
+      String oldKodePlg,
+      String newKodePlg,
+      String namaPlg,
+      String umurPlg,
+      String emailPlg,
+      String teleponPlg) async {
+    if (newKodePlg.isNotEmpty &&
+        namaPlg.isNotEmpty &&
+        umurPlg.isNotEmpty &&
+        emailPlg.isNotEmpty &&
+        teleponPlg.isNotEmpty) {
       try {
         // Perbarui data di Firebase
         await corref.doc(docId).update({
           'kode_pelanggan': newKodePlg,
           'nama_pelanggan': namaPlg,
           'umur_pelanggan': umurPlg,
+          'email': emailPlg,
+          'telepon': teleponPlg,
         });
 
         // Perbarui data di MySQL
         final response = await http.post(
-          Uri.parse('http://192.168.33.195/editpelanggan.php'),
+          Uri.parse('http://192.168.1.27/editpelanggan.php'),
           body: {
             'old_kode_pelanggan': oldKodePlg,
             'new_kode_pelanggan': newKodePlg,
             'nama_pelanggan': namaPlg,
             'umur_pelanggan': umurPlg,
+            'email': emailPlg,
+            'telepon': teleponPlg,
           },
         );
 
@@ -240,6 +269,8 @@ class _PendataanPelangganFurnitureState
     String? kodePlg,
     String? namaPlg,
     String? umurPlg,
+    String? emailPlg,
+    String? teleponPlg,
   }) async {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => FormInputPelanggan(
@@ -248,11 +279,16 @@ class _PendataanPelangganFurnitureState
         kodePlg: kodePlg,
         namaPlg: namaPlg,
         umurPlg: umurPlg,
-        onSave: (newKodePlg, newNamaPlg, newUmurPlg) async {
+        emailPlg: emailPlg,
+        teleponPlg: teleponPlg,
+        onSave: (newKodePlg, newNamaPlg, newUmurPlg, newEmailPlg,
+            newTeleponPlg) async {
           if (docId == null) {
-            _addData(newKodePlg, newNamaPlg, newUmurPlg);
+            _addData(
+                newKodePlg, newNamaPlg, newUmurPlg, newEmailPlg, newTeleponPlg);
           } else {
-            _editData(docId, oldKodePlg!, newKodePlg, newNamaPlg, newUmurPlg);
+            _editData(docId, oldKodePlg!, newKodePlg, newNamaPlg, newUmurPlg,
+                newEmailPlg, newTeleponPlg);
           }
           await _tampildata(); // Refresh data setelah edit
         },
@@ -305,6 +341,16 @@ class _PendataanPelangganFurnitureState
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
+                    Text(
+                      "\Email : ${data['email']}",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "\Telepon : ${data['telepon']}",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
@@ -319,6 +365,8 @@ class _PendataanPelangganFurnitureState
                       kodePlg: data['kode_pelanggan'],
                       namaPlg: data['nama_pelanggan'],
                       umurPlg: data['umur_pelanggan'],
+                      emailPlg: data['email'],
+                      teleponPlg: data['telepon'],
                     ),
                   ),
                   IconButton(

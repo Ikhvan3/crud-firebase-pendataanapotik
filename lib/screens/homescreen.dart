@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/obatcrud.dart';
-import 'package:flutter_application_1/pelanggancrud.dart';
+import 'package:flutter_application_1/screens/crudfurniture.dart';
+
 import 'package:flutter_application_1/screens/pelangganscreen.dart';
 
 class AppPendataan extends StatelessWidget {

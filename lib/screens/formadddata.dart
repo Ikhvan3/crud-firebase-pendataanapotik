@@ -6,7 +6,9 @@ class FormInputScreen extends StatelessWidget {
   final String? kodeBrg;
   final String? namaBrg;
   final String? hargaBrg;
-  final Function(String, String, String) onSave;
+  final String? descBrg;
+  final String? stokBrg;
+  final Function(String, String, String, String, String) onSave;
 
   FormInputScreen({
     this.docId,
@@ -14,6 +16,8 @@ class FormInputScreen extends StatelessWidget {
     this.kodeBrg,
     this.namaBrg,
     this.hargaBrg,
+    this.descBrg,
+    this.stokBrg,
     required this.onSave,
   });
 
@@ -22,6 +26,8 @@ class FormInputScreen extends StatelessWidget {
     final kodeBrgController = TextEditingController(text: kodeBrg);
     final namaBrgController = TextEditingController(text: namaBrg);
     final hargaBrgController = TextEditingController(text: hargaBrg);
+    final descBrgController = TextEditingController(text: descBrg);
+    final stokBrgController = TextEditingController(text: stokBrg);
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 201, 255, 246),
@@ -70,11 +76,35 @@ class FormInputScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: descBrgController,
+                  decoration: InputDecoration(labelText: 'Deskripsi Barang'),
+                ),
+              ),
+            ),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: stokBrgController,
+                  decoration: InputDecoration(labelText: 'Stok Barang'),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                onSave(kodeBrgController.text, namaBrgController.text,
-                    hargaBrgController.text);
+                onSave(
+                    kodeBrgController.text,
+                    namaBrgController.text,
+                    hargaBrgController.text,
+                    descBrgController.text,
+                    stokBrgController.text);
                 Navigator.of(context).pop();
               },
               child: Text(

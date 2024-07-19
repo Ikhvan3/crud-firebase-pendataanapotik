@@ -6,7 +6,9 @@ class FormInputPelanggan extends StatelessWidget {
   final String? kodePlg;
   final String? namaPlg;
   final String? umurPlg;
-  final Function(String, String, String) onSave;
+  final String? emailPlg;
+  final String? teleponPlg;
+  final Function(String, String, String, String, String) onSave;
 
   FormInputPelanggan({
     this.docId,
@@ -14,6 +16,8 @@ class FormInputPelanggan extends StatelessWidget {
     this.kodePlg,
     this.namaPlg,
     this.umurPlg,
+    this.emailPlg,
+    this.teleponPlg,
     required this.onSave,
   });
 
@@ -22,6 +26,8 @@ class FormInputPelanggan extends StatelessWidget {
     final kodePlgController = TextEditingController(text: kodePlg);
     final namaPlgController = TextEditingController(text: namaPlg);
     final umurPlgController = TextEditingController(text: umurPlg);
+    final emailPlgController = TextEditingController(text: emailPlg);
+    final teleponPlgController = TextEditingController(text: teleponPlg);
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 201, 255, 246),
@@ -68,11 +74,35 @@ class FormInputPelanggan extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: emailPlgController,
+                  decoration: InputDecoration(labelText: 'Email'),
+                ),
+              ),
+            ),
+            Card(
+              color: Color.fromARGB(255, 101, 255, 234),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: teleponPlgController,
+                  decoration: InputDecoration(labelText: 'Telepon'),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                onSave(kodePlgController.text, namaPlgController.text,
-                    umurPlgController.text);
+                onSave(
+                    kodePlgController.text,
+                    namaPlgController.text,
+                    umurPlgController.text,
+                    emailPlgController.text,
+                    teleponPlgController.text);
                 Navigator.of(context).pop();
               },
               child: Text(
